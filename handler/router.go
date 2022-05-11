@@ -4,8 +4,8 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/floge77/mixcloudPodcaster/config"
-	"github.com/floge77/mixcloudPodcaster/podcast"
+	"github.com/floge77/PodcastMaker/config"
+	"github.com/floge77/PodcastMaker/podcast"
 	"github.com/gorilla/mux"
 )
 

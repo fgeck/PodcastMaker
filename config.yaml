@@ -3,7 +3,7 @@ general:
   minimalLengthMin: 30
   downloadIntervalHours: 10
   hostName: localhost # IP or domain
-  downloadDir: "/Users/d068994/SAPDevelop/github.com/mixcloudPodacaster/testdownloads"
+  downloadDir: "/downloads"
   separator: "__" # used in the filenames to get following format: "$TITLE__$UPLOADER__$UPLOAD_DATE.mp3"
 
 podcasts:

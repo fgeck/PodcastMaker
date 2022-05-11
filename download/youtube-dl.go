@@ -7,7 +7,7 @@ import (
 	"os/exec"
 	"path/filepath"
 
-	"github.com/floge77/mixcloudPodcaster/config"
+	"github.com/floge77/PodcastMaker/config"
 )
 
 var (

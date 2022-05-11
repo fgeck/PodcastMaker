@@ -5,10 +5,10 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/floge77/mixcloudPodcaster/config"
-	"github.com/floge77/mixcloudPodcaster/download"
-	"github.com/floge77/mixcloudPodcaster/handler"
-	"github.com/floge77/mixcloudPodcaster/podcast"
+	"github.com/floge77/PodcastMaker/config"
+	"github.com/floge77/PodcastMaker/download"
+	"github.com/floge77/PodcastMaker/handler"
+	"github.com/floge77/PodcastMaker/podcast"
 )
 
 func main() {

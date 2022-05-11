@@ -8,7 +8,7 @@ import (
 	"strings"
 
 	podcastFeed "github.com/eduncan911/podcast"
-	"github.com/floge77/mixcloudPodcaster/config"
+	"github.com/floge77/PodcastMaker/config"
 )
 
 type PodcastBuilder interface {

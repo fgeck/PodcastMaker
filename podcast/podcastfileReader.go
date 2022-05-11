@@ -6,7 +6,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/floge77/mixcloudPodcaster/config"
+	"github.com/floge77/PodcastMaker/config"
 )
 
 type PodcastFileReader interface {
