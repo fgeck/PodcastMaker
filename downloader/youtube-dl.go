@@ -1,4 +1,4 @@
-package download
+package downloader
 
 import (
 	"fmt"
@@ -11,7 +11,7 @@ import (
 )
 
 var (
-	DownloadDir  = "/Users/d068994/SAPDevelop/github.com/mixcloudPodacaster/testdownloads" //"/downloads"
+	DownloadDir  = "/downloads"
 	outputFormat = "%%(title)s%s%%(artist)s%s%%(uploader)s%s%%(upload_date)s.%%(ext)s"
 )
 

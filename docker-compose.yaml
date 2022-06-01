@@ -1,0 +1,13 @@
+version: "3.3"
+services:
+  podcastmaker:
+    image: podcastmaker
+    container_name: podcastmaker
+    volumes:
+      - podcastmakerDownloads:/downloads
+      - ./config.yaml:/config.yaml
+    ports:
+      - 8127:80
+    restart: always
+volumes:
+  podcastmakerDownloads:

@@ -6,7 +6,7 @@ import (
 	"time"
 
 	"github.com/floge77/PodcastMaker/config"
-	"github.com/floge77/PodcastMaker/download"
+	"github.com/floge77/PodcastMaker/downloader"
 	"github.com/floge77/PodcastMaker/handler"
 	"github.com/floge77/PodcastMaker/podcast"
 )
@@ -19,11 +19,11 @@ func main() {
 	}
 
 	// download once - then async
-	downloader := download.NewDownloader(cfg)
-	//err = downloader.Download()
-	//if err != nil {
-	//	log.Fatal(err)
-	//}
+	downloader := downloader.NewDownloader(cfg)
+	err = downloader.Download()
+	if err != nil {
+		log.Fatal(err)
+	}
 	go func() {
 		for range time.Tick(10 * time.Hour) {
 			err = downloader.Download()
