@@ -3,7 +3,7 @@ FROM golang:alpine as builder
 RUN adduser -D -g '' podcastMaker
 
 WORKDIR /
-COPY . .
+COPY downloader/ config/ handler/ podcast/ main.go go.mod go.sum .
 RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o /podcastMaker
 
 FROM amd64/alpine

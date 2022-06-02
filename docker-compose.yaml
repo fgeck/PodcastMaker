@@ -1,7 +1,7 @@
 version: "3.3"
 services:
   podcastmaker:
-    image: podcastmaker
+    image: floge77/podcastmaker
     container_name: podcastmaker
     volumes:
       - podcastmakerDownloads:/downloads
@@ -12,8 +12,6 @@ services:
     networks:
       podcastmaker_network:
         ipv4_address: 192.168.178.200
-    cap_add:
-      - NET_ADMIN
 volumes:
   podcastmakerDownloads:
 networks:
@@ -23,6 +21,6 @@ networks:
       parent: eth0
     ipam:
       config:
-        - subnet: 192.168.178.0/24            # <-- Update
-          gateway: 192.168.178.1              # <-- Update
-          ip_range: 192.168.178.192/28        # <-- Update
+        - subnet: 192.168.178.0/24 # <-- Update
+          gateway: 192.168.178.1 # <-- Update
+          ip_range: 192.168.178.192/27 # <-- Update
