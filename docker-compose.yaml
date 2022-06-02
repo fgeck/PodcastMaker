@@ -7,7 +7,22 @@ services:
       - podcastmakerDownloads:/downloads
       - ./config.yaml:/config.yaml
     ports:
-      - 8127:80
+      - "80:80"
     restart: always
+    networks:
+      podcastmaker_network:
+        ipv4_address: 192.168.178.200
+    cap_add:
+      - NET_ADMIN
 volumes:
   podcastmakerDownloads:
+networks:
+  podcastmaker_network:
+    driver: macvlan
+    driver_opts:
+      parent: eth0
+    ipam:
+      config:
+        - subnet: 192.168.178.0/24            # <-- Update
+          gateway: 192.168.178.1              # <-- Update
+          ip_range: 192.168.178.192/28        # <-- Update

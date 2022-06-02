@@ -3,11 +3,14 @@ package handler
 import (
 	"log"
 	"net/http"
+	"path/filepath"
 
 	"github.com/floge77/PodcastMaker/config"
 	"github.com/floge77/PodcastMaker/podcast"
 	"github.com/gorilla/mux"
 )
+
+const podcastXmlName = "podcast.xml"
 
 type Router interface {
 	ServeAllPodcasts([]*podcast.PodcastFeed)
@@ -23,6 +26,9 @@ type DefaultRouter struct {
 func NewRouter(config *config.Config) Router {
 	router := mux.NewRouter()
 	router.PathPrefix("/downloads/").Handler(http.StripPrefix("/downloads/", http.FileServer(http.Dir(config.General.DownloadDir+"/"))))
+	router.HandleFunc("/", func(writer http.ResponseWriter, request *http.Request) {
+		_, _ = writer.Write([]byte("hello world"))
+	})
 	return &DefaultRouter{
 		router: router,
 		config: config,
@@ -40,14 +46,23 @@ func (r *DefaultRouter) ServeAllPodcasts(allPodcasts []*podcast.PodcastFeed) {
 }
 
 func (r *DefaultRouter) ServeSinglePodcast(podcastFeed *podcast.PodcastFeed) {
+	podcastXmlPath := filepath.Join(r.config.General.DownloadDir, podcastFeed.Path, podcastXmlName)
 	handleFunc := func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "application/xml")
 
-		if err := podcastFeed.Feed.Encode(w); err != nil {
-			http.Error(w, err.Error(), http.StatusInternalServerError)
+		if !isAuthenticated() {
+			w.Header().Set("WWW-Authenticate", "Basic")
+			w.WriteHeader(http.StatusUnauthorized)
+			http.Error(w, "you are not logged in", http.StatusUnauthorized)
+			return
 		}
+		http.ServeFile(w, r, podcastXmlPath)
 	}
 	route := "/podcasts/" + podcastFeed.Feed.IAuthor
 	log.Printf("Serving a podcast at %s", route)
 	r.router.HandleFunc(route, handleFunc).Methods("GET")
+}
+
+func isAuthenticated() bool {
+	return true
 }

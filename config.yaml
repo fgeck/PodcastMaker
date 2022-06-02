@@ -1,9 +1,10 @@
 general:
   minimalLengthMin: 30
   downloadIntervalHours: 10
-  hostName: localhost # IP or domain
-  downloadDir: "/downloads"
-  separator: "__" # used in the filenames to get following format: "$TITLE__$UPLOADER__$UPLOAD_DATE.mp3"
+  hostName: 192.168.178.200 # IP or domain
+  downloadDir: /downloads
+  separator: "__" # used in the downloader to get following format: "$TITLE__$UPLOADER__$UPLOAD_DATE.mp3"; it is also possible to pass own dirs and files in case they match the format
 
 podcasts:
-  - https://www.mixcloud.com/q-dance/
+  - https://mixcloud.com/q-dance/
+  - https://soundcloud.com/asys/sets/filterd-radio-show
