@@ -3,12 +3,12 @@ FROM golang:alpine as builder
 RUN adduser -D -g '' podcastMaker
 
 WORKDIR /
-COPY . .
+COPY downloader/ config/ handler/ podcast/ main.go go.mod go.sum .
 RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o /podcastMaker
 
-FROM alpine
+FROM amd64/alpine
 
-RUN apk update && apk add --no-cache ffmpeg curl python2
+RUN apk update && apk add --no-cache ffmpeg curl python3 && ln -sf python3 /usr/bin/python
 RUN curl -L https://yt-dl.org/downloads/latest/youtube-dl -o /usr/local/bin/youtube-dl
 RUN chmod a+rx /usr/local/bin/youtube-dl
 

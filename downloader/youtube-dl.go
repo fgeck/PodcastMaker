@@ -33,10 +33,13 @@ func (d *YoutubeDlDownloader) Download() error {
 		return err
 	}
 	for _, podcastConfig := range d.cfg.Podcasts {
-		err := d.downloadChannel(podcastConfig)
-		if err != nil {
-			return err
-		}
+		podcastConfig := podcastConfig
+		go func() {
+			err := d.downloadChannel(podcastConfig)
+			if err != nil {
+				log.Printf("error when downloading podcast %q: %v", podcastConfig.DownloadUrl, err)
+			}
+		}()
 	}
 	return nil
 }
@@ -63,12 +66,12 @@ func (d *YoutubeDlDownloader) downloadChannel(podcastConfig *config.PodcastConfi
 	cmd := exec.Command("youtube-dl", args...)
 
 	log.Printf("downloading channel %q from %q", podcastConfig.Channel, podcastConfig.Provider)
-	cmd.Stdout = os.Stdout
+	//cmd.Stdout = os.Stdout
 	cmd.Stderr = os.Stderr
 	err := cmd.Run()
 	if err != nil {
-		log.Fatal(err)
 		return err
 	}
+	log.Printf("finished downloading channel %q from %q", podcastConfig.Channel, podcastConfig.Provider)
 	return nil
 }

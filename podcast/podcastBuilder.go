@@ -11,8 +11,10 @@ import (
 	"github.com/floge77/PodcastMaker/config"
 )
 
+const podcastXmlName = "podcast.xml"
+
 type PodcastBuilder interface {
-	CreateAllPodcastFeeds() ([]*PodcastFeed, error)
+	WriteAllPodcastFeedsXml() ([]*PodcastFeed, error)
 	CreateSinglePodcastFeed(dirName string) (*PodcastFeed, error)
 }
 
@@ -38,7 +40,7 @@ func (b *DefaultPodcastBuilder) CreateSinglePodcastFeed(dirName string) (*Podcas
 	return b.createPodcastFeed(dirName)
 }
 
-func (b *DefaultPodcastBuilder) CreateAllPodcastFeeds() ([]*PodcastFeed, error) {
+func (b *DefaultPodcastBuilder) WriteAllPodcastFeedsXml() ([]*PodcastFeed, error) {
 	pwd, err := os.Getwd()
 	if err != nil {
 		return nil, err
@@ -64,6 +66,14 @@ func (b *DefaultPodcastBuilder) CreateAllPodcastFeeds() ([]*PodcastFeed, error) 
 				return nil, err
 			}
 			allFeeds = append(allFeeds, feed)
+			file, err := os.Create(path.Join(provider, uploader, podcastXmlName))
+			if err != nil {
+				return nil, err
+			}
+			err = feed.Feed.Encode(file)
+			if err != nil {
+				return nil, err
+			}
 		}
 	}
 	return allFeeds, nil
@@ -94,7 +104,7 @@ func (b *DefaultPodcastBuilder) createPodcastFeed(dirName string) (*PodcastFeed,
 		}
 		downloadURL := &url.URL{
 			Scheme: "http",
-			Host:   b.config.General.HostName,
+			Host:   b.config.General.HostName, // + ":80",
 			Path:   path.Join("/downloads", dirName, entry.FileName),
 		}
 		item.AddEnclosure(downloadURL.String(), podcastFeed.MP3, entry.FileSize)

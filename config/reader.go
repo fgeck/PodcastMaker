@@ -3,7 +3,6 @@ package config
 import (
 	"io/ioutil"
 	"net/url"
-	"regexp"
 	"strings"
 
 	"gopkg.in/yaml.v2"
@@ -63,11 +62,11 @@ func (r *DefaultConfigReader) Read(path string) (*Config, error) {
 		if err != nil {
 			return nil, err
 		}
-		regex := regexp.MustCompile(`\.?([^.]*.com)`)
-		provider := regex.FindStringSubmatch(podcast)[1]
+		//regex := regexp.MustCompile(`\.?([^.]*.com)`)
+		//provider := regex.FindStringSubmatch(podcast)[1]
 		name := strings.Replace(downloadUrl.Path, "/", "", -1)
 		config.Podcasts = append(config.Podcasts, &PodcastConfig{
-			Provider:    provider,
+			Provider:    downloadUrl.Host,
 			Channel:     name,
 			DownloadUrl: podcast})
 	}
